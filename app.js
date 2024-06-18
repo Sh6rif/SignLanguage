@@ -201,11 +201,6 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  console.log("Session Data:", req.session);
-  next();
-});
-
 ////////////////////////////////////////////////////////////////////////////
 // Render home page and handle the token and avatarUrl if available
 app.get("/", (req, res) => {
