@@ -14,6 +14,8 @@ const upload = multer({
 });
 const User = require("./config");
 const session = require("express-session");
+const { createClient } = require("redis");
+const RedisStore = require('connect-redis').default;
 const ffmpeg = require("ffmpeg");
 const path = require("path");
 const fs = require("fs");
@@ -41,18 +43,23 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-// Auto refresh livereload for All Files ===> there is script in package.json
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "public"));
+// Conditionally include live reload middleware in development
+if (process.env.NODE_ENV !== "production") {
+  const livereload = require("livereload");
+  const connectLivereload = require("connect-livereload");
 
-const connectLivereload = require("connect-livereload");
-app.use(connectLivereload());
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.watch(path.join(__dirname, "public"));
 
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
+  app.use(connectLivereload());
+
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 // fection to send Email
@@ -189,15 +196,26 @@ setAdmin("sherefalex34@gmail.com");
 setAdmin("omaradmin@gmail.com");
 //////////////////////////////////////////////////////////////////////////////
 
+const redisClient = createClient({
+  password: "eVLuzcezIri8rpauQcx0ThNE2TkrUInE",
+  socket: {
+    host: "redis-17305.c11.us-east-1-2.ec2.redns.redis-cloud.com",
+    port: 17305,
+  },
+});
+
+redisClient.connect().catch(console.error);
+
 app.use(
   session({
+    store: new RedisStore({ client: redisClient }),
     secret: secretKey,
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // Set to true if in production
-      httpOnly: true, // Helps prevent cross-site scripting (XSS) attacks
-      sameSite: "strict", // Helps prevent CSRF attacks
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "strict",
     },
   })
 );
