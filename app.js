@@ -15,7 +15,7 @@ const upload = multer({
 const User = require("./config");
 const session = require("express-session");
 const { createClient } = require("redis");
-const RedisStore = require('connect-redis').default;
+const RedisStore = require("connect-redis").default;
 const ffmpeg = require("ffmpeg");
 const path = require("path");
 const fs = require("fs");
@@ -43,8 +43,8 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-// Conditionally include live reload middleware in development
-if (process.env.NODE_ENV !== "production") {
+// Check the environment and conditionally include live reload middleware
+if (process.env.NODE_ENV === "development") {
   const livereload = require("livereload");
   const connectLivereload = require("connect-livereload");
 
