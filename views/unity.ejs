@@ -47,21 +47,23 @@
         var script = document.createElement("script");
         script.src = loaderUrl;
         script.onload = () => {
-          createUnityInstance(canvas, config, (progress) => {
-            console.log(`Loading progress: ${progress * 100}%`);
-          })
+          createUnityInstance(canvas, config, (progress) => {})
             .then((unityInstance) => {
               UnityInstance = unityInstance;
               // Add message event listener to receive messages from the parent window
               window.addEventListener("message", (event) => {
                 var message = event.data;
-                console.log(message);
+                console.log("Received message:", message);
                 if (message === "START_RECORDING") {
                   // Stop Unity
-                  UnityInstance.Quit().then(function () {
-                    console.log("Unity quit successfully");
-                    UnityInstance = null;
-                  });
+                  UnityInstance.Quit()
+                    .then(function () {
+                      console.log("Unity quit successfully");
+                      UnityInstance = null;
+                    })
+                    .catch((error) => {
+                      console.error("Error quitting Unity:", error);
+                    });
                 } else if (typeof message === "string") {
                   message = message.trim().toLowerCase();
                   if (message === "and" || message === "مرحبا") {
@@ -73,18 +75,26 @@
                   ) {
                     message = "2";
                   }
-                  console.log(message);
-                  UnityInstance.SendMessage(
-                    "Ch09_nonPBR",
-                    "StartPlayAnimationThenReset",
-                    message
-                  );
+                  console.log("Sending message to Unity:", message);
+                  if (UnityInstance) {
+                    UnityInstance.SendMessage(
+                      "Ch09_nonPBR",
+                      "StartPlayAnimationThenReset",
+                      message
+                    );
+                  } else {
+                    console.error("UnityInstance is null.");
+                  }
                 }
               });
             })
             .catch((error) => {
               console.error("Failed to initialize Unity:", error);
             });
+        };
+
+        script.onerror = (error) => {
+          console.error("Failed to load Unity loader script:", error);
         };
 
         document.body.appendChild(script);
