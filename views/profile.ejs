@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="website icon" type="png" href="" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/framework.css" />
+    <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .form-control {
+        padding: 0px;
+        margin: 0;
+        grid-template-columns: 38% auto 15%;
+        grid-template-rows: 1fr auto;
+        width: 90%;
+        height: 100%;
+        justify-items: center;
+        align-items: baseline;
+      }
+      .form-control2 {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+      }
+      .form-control input {
+        padding: 5px 0px;
+        margin: 0;
+        width: 100%;
+        height: 40%;
+        color: #e71d36;
+        border-radius: 5px;
+      }
+      .form-control small {
+        font-size: 12px;
+        position: relative;
+        grid-column: 2;
+      }
+      .form-control2 small {
+        position: relative;
+      }
+
+      /* Container for the courses section */
+      .courses-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+        width: 60%;
+      }
+
+      /* Styles for each course link */
+      .course-link {
+        text-decoration: none;
+        color: inherit;
+        flex: 1 1 calc(100% / 3); /* Three courses per row with a gap */
+        box-sizing: border-box;
+      }
+
+      /* Styles for each course card */
+      .course-card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Styles for the course image */
+      .course-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      /* Container for the course details */
+      .course-details {
+        padding: 15px;
+      }
+
+      /* Styles for the course name */
+      .course-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        margin-bottom: 10px;
+      }
+
+      /* Styles for the course progress */
+      .course-progress {
+        font-size: 14px;
+        color: #666;
+        position: relative;
+        height: 20px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      /* Container for the progress bar */
+      .course-progress .blue {
+        display: block;
+        height: 100%;
+        background-color: #007bff;
+        border-radius: 10px;
+      }
+
+      /* Text within the progress bar */
+      .course-progress .bg-blue {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-weight: bold;
+      }
+    </style>
+    <title data-i18n="PROFILE_TITLE">Profile</title>
+  </head>
+
+  <body>
+    <!-- ///////////////////// Script in the Header Components ////////////////////////// -->
+    <div class="scroller"></div>
+    <!-- /////////////////////////////////////////////// -->
+    <!-- if User Enter Wrong Password -->
+    <% if (typeof PassMsg !== 'undefined') { %>
+    <div class="alert-bar"><%= PassMsg %></div>
+    <% } %>
+    <!-- Start header -->
+    <%- include('./components/header.ejs', { avatarUrl: user.avatarUrl,
+    currentPage: null }) %>
+    <!-- End Header -->
+
+    <!-- Start profile -->
+    <section>
+      <div class="profile-section">
+        <div class="password-change-section">
+          <div class="back-arrow-and-h2">
+            <i class="fa-sharp fa-solid fa-chevron-left fa-beat fa-lg"></i>
+            <h2 data-i18n="CHANGE_PASSWORD">Change Your Password</h2>
+          </div>
+          <div class="change-form">
+            <form
+              action="/Update_Password"
+              method="post"
+              enctype="multipart/form-data"
+              id="change-form"
+              class="change-password"
+            >
+              <input
+                type="hidden"
+                name="email"
+                id="emailHide"
+                value="<%= user.email %>"
+              />
+              <div class="current-password-section form-control2">
+                <label for="current-password" data-i18n="CURRENT_PASSWORD"
+                  >Enter your current password</label
+                >
+                <input
+                  type="password"
+                  name="CurrentPassword"
+                  id="current-password"
+                  autocomplete="off"
+                />
+                <small data-i18n="ERROR_MESSAGE">Error message</small>
+              </div>
+              <div class="new-password-section">
+                <label for="new-password" data-i18n="NEW_PASSWORD"
+                  >New Password</label
+                >
+                <div class="new-password-input form-control2">
+                  <input
+                    type="password"
+                    id="new-password"
+                    name="NewPassword"
+                    autocomplete="off"
+                  />
+                  <i
+                    class="fa-solid fa-lock"
+                    id="show-password"
+                    onclick="togglePasswordVisibility('new-password')"
+                  ></i>
+                  <small data-i18n="ERROR_MESSAGE">Error message</small>
+                </div>
+              </div>
+              <div class="confirm-password-section">
+                <label for="confirm-password" data-i18n="CONFIRM_NEW_PASSWORD"
+                  >Confirm New Password</label
+                >
+                <div class="confirm-password-input form-control2">
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    autocomplete="off"
+                  />
+                  <i
+                    class="fa-solid fa-lock"
+                    id="show-confirm-password"
+                    onclick="togglePasswordVisibility('confirm-password')"
+                  ></i>
+                  <small data-i18n="ERROR_MESSAGE">Error message</small>
+                </div>
+              </div>
+              <p data-i18n="SIGNED_OUT_NOTE">
+                *You will be signed out when you save.
+              </p>
+              <button type="submit" id="saveNewPassword" data-i18n="SAVE">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="profile-container">
+          <form
+            action="/Upload_Avatar"
+            method="post"
+            enctype="multipart/form-data"
+            id="avatar-form"
+          >
+            <div class="avatar">
+              <input type="file" id="avatar" name="avatar" accept="image/*" />
+              <div class="avatar-img">
+                <img src="<%= user.avatarUrl %>" alt="avatar" id="avatar-img" />
+                <div class="circle-animation"></div>
+              </div>
+              <div
+                class="camera"
+                onclick="document.getElementById('avatar').click()"
+              >
+                <img src="/images/camera-icon.png" alt="camera" />
+              </div>
+            </div>
+          </form>
+          <div class="nav-section">
+            <ul>
+              <li class="active" data-i18n="ACCOUNT_INFO">
+                Account Information
+              </li>
+              <li class="" data-i18n="PERSONAL_INFO">Personal Information</li>
+            </ul>
+          </div>
+          <div class="information">
+            <form
+              class="profile-form"
+              action="/Update_User"
+              method="post"
+              enctype="multipart/form-data"
+              id="profile-form"
+            >
+              <div class="email-section">
+                <label for="email" data-i18n="EMAIL">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="email-input"
+                  autocomplete="off"
+                  value="<%= user.email %>"
+                  readonly
+                />
+              </div>
+              <div class="password-section">
+                <label for="password" data-i18n="PASSWORD">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  class="password-input"
+                  autocomplete="off"
+                  value="*********"
+                  readonly
+                />
+                <i
+                  class="fa-sharp fa-solid fa-chevron-right fa-beat fa-lg"
+                  title="Change Password"
+                ></i>
+              </div>
+              <div class="name-section form-control">
+                <label for="name" data-i18n="NAME">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="username"
+                  value="<%= user.username %>"
+                  class="name-input"
+                  autocomplete="on"
+                />
+                <small data-i18n="ERROR_MESSAGE">Error message</small>
+              </div>
+              <div class="gender-section">
+                <label for="gender" data-i18n="GENDER">Gender</label>
+                <select
+                  name="gender"
+                  id="gender"
+                  class="gender-input"
+                  autocomplete="off"
+                >
+                  <% if (user.gender==='male') { %>
+                  <option selected value="male" data-i18n="MALE">Male</option>
+                  <option value="female" data-i18n="FEMALE">Female</option>
+                  <% } else { %>
+                  <option value="male" data-i18n="MALE">Male</option>
+                  <option selected value="female" data-i18n="FEMALE">
+                    Female
+                  </option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="save-section">
+                <button type="submit" id="saveButton" data-i18n="SAVE">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% if (typeof courses !== 'undefined') { %>
+    <div class="courses-section">
+      <% courses.forEach(course => { %>
+      <a
+        href="/courses/course_info?course=<%= course.id %>"
+        class="course-link"
+      >
+        <div class="course-card">
+          <img
+            src="<%= course.imageUrl %>"
+            alt="<%= course.name %>"
+            class="course-image"
+          />
+          <div class="course-details">
+            <h3 class="course-name"><%= course.name %></h3>
+            <p class="course-progress">
+              <span
+                class="blue"
+                style="width: <%= course.averageProgress.toFixed(2) %>%"
+              >
+                <span class="bg-blue"
+                  ><%= course.averageProgress.toFixed(2) %>%</span
+                >
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+    <% } %>
+    <!-- End profile -->
+    <script src="/js/profile.js"></script>
+    <script src="/js/lang.js"></script>
+  </body>
+</html>

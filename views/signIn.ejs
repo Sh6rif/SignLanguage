@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="website icon" type="png" href="" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/framework.css" />
+    <link rel="stylesheet" href="/css/master.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title data-i18n="SIGN_IN">Sign In</title>
+  </head>
+
+  <body>
+    <!-- ///////////////////// Script in the Header Components ////////////////////////// -->
+    <div class="scroller"></div>
+    <!-- /////////////////////////////////////////////// -->
+    <!-- if User Enter Wrong Email or Password or Enter Admin Section -->
+    <% if (typeof msg !== 'undefined') { %>
+    <div class="alert-bar"><%= msg %></div>
+    <% } %>
+    <!-- Start header -->
+    <%- include('./components/header.ejs', { avatarUrl: null, currentPage: null
+    }) %>
+    <!-- End Header -->
+
+    <!-- Start Home -->
+    <div class="signIn">
+      <div class="containerS">
+        <div class="content">
+          <form
+            action="/signIn"
+            method="post"
+            enctype="multipart/form-data"
+            id="signinForm"
+          >
+            <h1 data-i18n="SIGN_IN" class="fw-bold mb-30">Sign in</h1>
+            <div class="mb-20">
+              <a href="#" class="social"
+                ><i class="fa-brands fa-linkedin"></i
+              ></a>
+              <a href="#" class="social"
+                ><i class="fa-brands fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social"><i class="fa-brands fa-google"></i></a>
+            </div>
+            <div class="text">
+              <span data-i18n="OR_USE_ACCOUNT" class="mb-10 mt-10 fw-bold"
+                >or use your account</span
+              >
+              <div class="form-control">
+                <input
+                  type="email"
+                  autocomplete="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter email"
+                  data-i18n="ENTER_EMAIL"
+                />
+                <small data-i18n="ERROR_MESSAGE">Error message</small>
+              </div>
+              <div class="form-control">
+                <input
+                  name="password"
+                  type="password"
+                  id="password"
+                  placeholder="Enter password"
+                  data-i18n="ENTER_PASSWORD"
+                />
+                <small data-i18n="ERROR_MESSAGE">Error message</small>
+              </div>
+              <span class="mt-15 fw-bold c-black"
+                ><a href="/reset" data-i18n="FORGOT_PASSWORD">Forgot your password?</a></span
+              >
+              <button data-i18n="SIGN_IN" class="mt-20" type="submit">
+                SIGN IN
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="intro">
+          <h1 data-i18n="HELLO_FRIEND" class="c-white">Hello, Friend!</h1>
+          <p data-i18n="PERSONAL_DETAILS" class="m-10 fw-bold c-white">
+            Enter your personal details and start journey with us
+          </p>
+          <a href="/signUp"
+            ><button data-i18n="SIGN_UP" class="dif mt-20">SIGN UP</button></a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- End Home -->
+    <script src="/js/signIn.js"></script>
+    <script src="/js/lang.js"></script>
+  </body>
+</html>

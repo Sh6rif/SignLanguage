@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/framework.css" />
+    <link rel="stylesheet" href="/css/master.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Control Courses</title>
+  </head>
+  <body>
+    <% if (typeof msgAdmin !== 'undefined') { %>
+    <div class="alert-bar"><%= msgAdmin %></div>
+    <% } %>
+    <div class="controlCourses">
+      <h1>Control any course as you need!</h1>
+      <div class="content">
+        <div class="add">
+          <button class="add" id="openAdd">Add course</button>
+        </div>
+        <div class="view-course">
+          <a
+            href="/control/controlCoursesView"
+            class="view-course"
+            id="view-course"
+          >
+            View Courses
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="controlCourses">
+      <h1>Manage User Account</h1>
+      <div class="content">
+        <div class="view-account">
+          <a
+            href="/control/controlCoursesAccount"
+            class="view-account"
+            id="view-account"
+            >View Accounts</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="controlCourses">
+      <h1>Admin</h1>
+      <div class="content">
+        <div class="logout">
+          <a href="/logout"> Logout </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-container" id="modal-add">
+      <div class="modal">
+        <button class="close-btn" id="close">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </button>
+        <div class="modal-header">
+          <h3>Add course</h3>
+        </div>
+        <div class="modal-content">
+          <p>Enter this required info to add any course:</p>
+          <form
+            action="/create-course"
+            method="post"
+            enctype="multipart/form-data"
+            class="modal-form"
+            id="addform"
+          >
+            <div>
+              <label for="codeAdd">Course code</label>
+              <input
+                type="number"
+                id="codeAdd"
+                placeholder="Enter code"
+                class="form-input"
+                required
+                name="code"
+                min="0"
+              />
+            </div>
+            <div>
+              <label for="languageAdd">Course language</label>
+              <input
+                type="text"
+                id="languageAdd"
+                placeholder="Arabic Or English"
+                class="form-input"
+                name="language"
+                autocomplete="language"
+                required
+              />
+            </div>
+            <div>
+              <label for="nameAdd">Course name</label>
+              <input
+                type="text"
+                id="nameAdd"
+                placeholder="Enter Name"
+                class="form-input"
+                name="name"
+                autocomplete="name"
+                required
+              />
+            </div>
+            <div>
+              <label for="CategoriesAdd">Course Category</label>
+              <input
+                type="text"
+                id="CategoriesAdd"
+                placeholder="Enter Category"
+                class="form-input"
+                name="categories"
+                required
+              />
+            </div>
+            <div>
+              <label for="lessonAdd">Number of Lesson</label>
+              <input
+                type="number"
+                id="lessonAdd"
+                placeholder="Enter Number"
+                class="form-input"
+                required
+                name="lesson"
+                min="1"
+              />
+            </div>
+            <div>
+              <label for="Lessondescription">Lesson Descriptions</label>
+              <textarea
+                name="Lessondescription"
+                id="Lessondescription"
+                cols="35"
+                rows="10"
+                placeholder="Enter each lesson description on a new line"
+                required
+              ></textarea>
+            </div>
+            <div>
+              <label for="durationAddinfo">Course duration</label>
+              <input
+                type="text"
+                name="duration"
+                id="durationAddinfo"
+                placeholder="Enter course time (3h / 12m)"
+                class="form-input"
+                required
+              />
+            </div>
+            <div>
+              <label for="descriptionAdd">Course description</label>
+              <textarea
+                name="description"
+                id="descriptionAdd"
+                cols="35"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+            <div style="display: flex">
+              <label for="custom-image-upload-add" class="choose"
+                >Course Image:</label
+              >
+              <input
+                name="imageUrl"
+                type="file"
+                id="custom-image-upload-add"
+                accept="image/*"
+                class="choose-btn"
+                required
+              />
+            </div>
+            <div style="display: flex">
+              <label for="custom-video-upload-add" class="choose"
+                >Intro video:</label
+              >
+              <input
+                name="videoUrl"
+                type="file"
+                id="custom-video-upload-add"
+                accept="video/*"
+                class="chooseVideo-btn"
+                required
+              />
+            </div>
+            <h3 style="margin: 0">Upload videos</h3>
+            <div style="display: flex; justify-content: space-around">
+              <div style="display: flex; margin-left: -20px">
+                <input
+                  type="radio"
+                  name="choose"
+                  value="upload"
+                  id="radio-upload"
+                />
+                <label style="margin: 0" for="radio-upload">Upload video</label>
+              </div>
+              <div style="display: flex">
+                <input type="radio" name="choose" value="url" id="radio-url" />
+                <label style="margin: 0" for="radio-url">Url</label>
+              </div>
+            </div>
+
+            <div class="device-video" id="device-video">
+              <label for="custom-video-upload-course" class="choose"
+                >Choose video(s):</label
+              >
+              <input
+                type="file"
+                id="custom-video-upload-course"
+                accept="video/*"
+                class="chooseVideo-btn"
+                name="listvideoUrl"
+                multiple
+              />
+            </div>
+            <div class="url-video" id="url-video">
+              <label for="url">Video url</label>
+              <input
+                type="url"
+                id="url"
+                placeholder="Enter url"
+                class="form-input"
+              />
+            </div>
+            <input type="submit" value="Add" class="submit-btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/controlCourses.js"></script>
+    <script>
+      const openAdd = document.getElementById("openAdd");
+      const close = document.getElementById("close");
+      const modalAdd = document.getElementById("modal-add");
+      const lessonAdd = document.getElementById("lessonAdd");
+      const lessonDescriptions = document.getElementById("Lessondescription");
+      const customVideoUploadCourse = document.getElementById(
+        "custom-video-upload-course"
+      );
+
+      // Function to remove the "show-modal" class
+      const closeModal = () => {
+        modalAdd.classList.remove("show-modal");
+      };
+      // Attach the event listener to the "close" button for Add modal
+      close.addEventListener("click", closeModal);
+
+      // Function to  show modal
+      const addModal = () => {
+        modalAdd.classList.add("show-modal");
+      };
+
+      // Show Add modal
+      openAdd.addEventListener("click", addModal);
+
+      ////////////////////////////////
+      // Hide modal on outside click
+      window.addEventListener("click", (e) =>
+        e.target == modalAdd ? modalAdd.classList.remove("show-modal") : false
+      );
+
+      // Event listener for the form submission
+      document.getElementById("addform").addEventListener("submit", (event) => {
+        const numberOfLessons = lessonAdd.value;
+        const lessonDescriptionsArray = lessonDescriptions.value
+          .split(/\r?\n/)
+          .map((desc) => desc.trim())
+          .filter((desc) => desc !== "");
+        const uploadedVideos = customVideoUploadCourse.files.length;
+
+        if (numberOfLessons != lessonDescriptionsArray.length) {
+          event.preventDefault();
+          alert(
+            `The number of lessons (${numberOfLessons}) must match the number of lesson descriptions (${lessonDescriptionsArray.length}).`
+          );
+        } else if (numberOfLessons != uploadedVideos) {
+          event.preventDefault();
+          alert(
+            `The number of lessons (${numberOfLessons}) must match the number of uploaded videos (${uploadedVideos}).`
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
