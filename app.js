@@ -43,23 +43,22 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-// Check the environment and conditionally include live reload middleware
-if (process.env.NODE_ENV === "development") {
-  const livereload = require("livereload");
-  const connectLivereload = require("connect-livereload");
+// // Check the environment and conditionally include live reload middleware
+// if (process.env.NODE_ENV === "development") {
+//   const livereload = require("livereload");
+//   const connectLivereload = require("connect-livereload");
 
-  const liveReloadServer = livereload.createServer();
-  liveReloadServer.watch(path.join(__dirname, "public"));
+//   const liveReloadServer = livereload.createServer();
+//   liveReloadServer.watch(path.join(__dirname, "public"));
 
-  app.use(connectLivereload());
+//   app.use(connectLivereload());
 
-  liveReloadServer.server.once("connection", () => {
-    setTimeout(() => {
-      liveReloadServer.refresh("/");
-    }, 100);
-  });
-}
-
+//   liveReloadServer.server.once("connection", () => {
+//     setTimeout(() => {
+//       liveReloadServer.refresh("/");
+//     }, 100);
+//   });
+// }
 //////////////////////////////////////////////////////////////////////////////
 
 // fection to send Email
@@ -219,6 +218,11 @@ app.use(
     },
   })
 );
+
+app.use((req, res, next) => {
+  console.log("Session Data:", req.session);
+  next();
+});
 
 ////////////////////////////////////////////////////////////////////////////
 // Render home page and handle the token and avatarUrl if available
