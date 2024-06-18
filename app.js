@@ -191,10 +191,12 @@ app.use(
     store: new RedisStore({ client: redisClient }),
     secret: secretKey,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
+      sameSite: "strict",
       httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000
     },
   })
 );
