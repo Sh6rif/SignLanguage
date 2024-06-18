@@ -206,7 +206,7 @@ ul {
 }
 
 @media (max-width: 767px) {
-  .header .container a h3 {
+  .header .container a h1 {
     display: none;
   }
 }
