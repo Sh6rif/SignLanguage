@@ -6,7 +6,6 @@ const cors = require("cors");
 const admin = require("./models/admin");
 const axios = require("axios");
 const Typo = require("typo-js");
-const livereload = require("livereload");
 const multer = require("multer");
 const Storage = multer.memoryStorage();
 const upload = multer({
@@ -42,24 +41,6 @@ app.use(i18n.init);
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
-
-// // Check the environment and conditionally include live reload middleware
-// if (process.env.NODE_ENV === "development") {
-//   const livereload = require("livereload");
-//   const connectLivereload = require("connect-livereload");
-
-//   const liveReloadServer = livereload.createServer();
-//   liveReloadServer.watch(path.join(__dirname, "public"));
-
-//   app.use(connectLivereload());
-
-//   liveReloadServer.server.once("connection", () => {
-//     setTimeout(() => {
-//       liveReloadServer.refresh("/");
-//     }, 100);
-//   });
-// }
-//////////////////////////////////////////////////////////////////////////////
 
 // fection to send Email
 async function sendEmail(userEmail) {
@@ -210,7 +191,7 @@ app.use(
     store: new RedisStore({ client: redisClient }),
     secret: secretKey,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, 
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
