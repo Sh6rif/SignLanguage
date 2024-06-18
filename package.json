@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "author": "",
+  "engines": {
+    "node": "20.11.0"
+  },
   "license": "ISC",
   "scripts": {
     "start": "node app.js",
